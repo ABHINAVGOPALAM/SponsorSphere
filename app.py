@@ -7,9 +7,7 @@ import config
 
 import models
 
-@app.route('/login')
-def index():
-    return render_template('login.html')
+import routes
 
 
 

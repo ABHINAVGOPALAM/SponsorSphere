@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block title %}Register - SponsorSphere{% endblock %}
+
+{% block content %}
+    <h1>Register as a Sponsor</h1>
+    <form action="/register" method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username : 
+            <input type="text" class="form-control" id="username" name="username">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for = "organization_name" class="form-label">Organization Name : 
+            <input type="text" class="form-control" id="organization_name" name="organization_name">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for = "niche" class="form-label">Niche : 
+            <select>
+                <option >Select</option>
+                <option value="Tech">Tech</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Sports">Sports</option>
+                <option value="Business">Food</option>
+                <option value="Travel" >Travel</option>
+            </select>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password :
+            <input type="password" class="form-control" id="password" name="password">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm Password :
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+            </label>
+        </div>
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
+{% endblock %}
+
+{% block style %}
+    <style>
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 100px;
+        }
+        h1{
+            text-align: center;
+            margin-top:100px    ;
+        }
+    </style>
+{% endblock %}

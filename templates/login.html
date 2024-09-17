@@ -6,13 +6,31 @@
     <h1>Login</h1>
     <form action="/login" method="post">
         <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
+            <label for="username" class="form-label">Username : 
             <input type="text" class="form-control" id="username" name="username">
+            </label>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label">Password :
             <input type="password" class="form-control" id="password" name="password">
+            </label>
         </div>
         <button type="submit" class="btn btn-success">Login</button>
     </form>
+{% endblock %}
+
+{% block style %}
+    <style>
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 100px;
+        }
+        h1{
+            text-align: center;
+            margin-top: 100px;
+        }
+    </style>
 {% endblock %}
