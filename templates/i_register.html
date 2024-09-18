@@ -4,12 +4,19 @@
 
 {% block content %}
     <h1>Register as a Influencer</h1>
-    <form action="/influncer_register" method="post">
+    <form action="/register_influencer" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">Username : 
             <input type="text" class="form-control" id="username" name="username">
             </label>
         </div>
+        <div class="mb-3">
+            <label for = "name" class="form-label">Name :
+            <input type="text" class="form-control" id="name" name="name">
+            </label>
+        </div>
+
+
         <div class="mb-3">
             <label for = "platform" class="form-label">Platform : 
             <input type="text" class="form-control" id="platform" name="platform">
@@ -22,7 +29,7 @@
         </div>
         <div class="mb-3">
             <label for = "niche" class="form-label">Niche : 
-            <select>
+            <select name = "niche">
                 <option >Select</option>
                 <option value="Tech">Tech</option>
                 <option value="Entertainment">Entertainment</option>
