@@ -19,11 +19,11 @@ class User(db.Model):
         #'polymorphic_identity': 'user'  
     }
     
-    # # relationships
-    # influencers = db.relationship("Influencer",back_populates='user', lazy=True)# only loaded when needed
+    # relationships
+    influencers = db.relationship("Influencer", backref='user', lazy=True)# only loaded when needed
     
-    # campaigns = db.relationship("Campaign", backref="user", cascade="all, delete-orphan")
-    # ratings = db.relationship("Rating", backref="user", cascade="all, delete-orphan")
+    campaigns = db.relationship("Campaign", backref="user", cascade="all, delete-orphan")
+    ratings = db.relationship("Rating", backref="user", cascade="all, delete-orphan")
 
 class Sponsor(User):
     __tablename__ = "sponsor"
@@ -53,9 +53,8 @@ class Influencer(User):
         'polymorphic_identity': 'influencer'
     }
     # relationships
-    # user = db.relationship("User", back_populates='influencers')
-    # ad_requests = db.relationship("AdRequest", backref="influencer", cascade="all, delete-orphan")
-    # ratings = db.relationship("Rating", backref="influencer", cascade="all, delete-orphan")
+    ad_requests = db.relationship("AdRequest", backref="influencer", cascade="all, delete-orphan")
+    ratings = db.relationship("Rating", backref="influencer", cascade="all, delete-orphan")
 
 class Campaign(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -99,13 +98,9 @@ class Rating(db.Model):
 with app.app_context():
     db.create_all()
 
-
-    test_user = User(
-        username="admin",
-        password_hash= generate_password_hash("admin"),
-        role="admin",
-    )
-
-    db.session.add(test_user)
-    db.session.commit()
+    user = User.query.filter_by(role="admin").first()
+    if not user:
+        sys_admin = User(username="admin",password_hash= generate_password_hash("admin"),role="admin",)
+        db.session.add(sys_admin)
+        db.session.commit()
 
