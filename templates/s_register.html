@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Register as a Sponsor</h1>
-    <form action="/sponser_register" method="post">
+    <form action="/register_sponsor" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">Username : 
             <input type="text" class="form-control" id="username" name="username">
@@ -17,7 +17,7 @@
         </div>
         <div class="mb-3">
             <label for = "niche" class="form-label">Niche : 
-            <select>
+            <select name = "niche">
                 <option >Select</option>
                 <option value="Tech">Tech</option>
                 <option value="Entertainment">Entertainment</option>

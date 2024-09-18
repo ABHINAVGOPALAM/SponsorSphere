@@ -19,6 +19,45 @@ def register_sponsor():
 def register_influencer():
     return render_template('i_register.html')
 
+@app.route('/register_sponsor', methods=['POST'])
+def register_sponsor_post():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    confirm_password = request.form.get('confirm_password')
+    oraganization_name = request.form.get('organization_name')
+    niche = request.form.get('niche')
+
+    if not username or not password or not confirm_password or not oraganization_name or not niche:
+        flash('All fields are required')
+        return redirect(url_for('register_sponsor'))
+
+    old_user = User.query.filter_by(username=username).first()
+
+    if old_user:
+        flash('Username already exists')
+        return redirect(url_for('register_sponsor'))
+    
+    if password != confirm_password:
+        flash('Passwords do not match')
+        return redirect(url_for('register_sponsor'))
+    
+    password_hash = generate_password_hash(password)
+
+    new_user = Sponsor(
+        
+        username=username,
+        password_hash=password_hash,
+        role="sponsor",
+        organization_name = oraganization_name,
+        niche = niche
+
+    )    
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    return redirect(url_for('login'))   
+
 @app.route('/register_influencer', methods=['POST'])
 def register_influencer_post():
     username = request.form.get('username')
