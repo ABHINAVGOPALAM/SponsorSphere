@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}Campaigns - SponsorSphere{% endblock %}
+
+{% block content %}
+    <h1>Campaigns</h1>
+    <div class="container text-center">
+        <div class="row align-items-start">
+            {% for campaign in user.campaigns %}
+        <div class="col">    
+        <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{ campaign.name }}</h5>
+          <p class="card-text">{{ campaign.about }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">{{ campaign.budget }}</li>
+          <li class="list-group-item">{{ campaign.start_date }} - {{ campaign.end_date }}</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">View</a>
+          <a href="{{url_for('edit_campaigns',campaign_id=campaign.id)}}" class="card-link">Edit</a>
+        </div>
+      </div>
+      </div>    
+    {% endfor %}
+        </div>
+      </div>
+    
+    <a href="{{url_for('add_campaign')}}" class="btn btn-primary">Add Campaign</a>
+{% endblock %}
+
+{}
+

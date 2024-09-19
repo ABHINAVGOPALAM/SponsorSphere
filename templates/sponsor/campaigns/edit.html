@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title %}Campaigns - SponsorSphere{% endblock %}
+
+{% block content %}
+    <h1>Edit Campaigns</h1>
+
+    <form action="/campaigns/edit/{{campaign.id}}" method="post">
+        <div class="mb-3">
+        <label for="name" class="form-label">Name : 
+            <input type="text" class="form-control" id="name" name="name" value="{{campaign.name}}" >
+        </label>
+        </div>
+        <div class="mb-3">
+            <label for = "about" class="form-label">About :
+            <textarea class="form-control" id="about" name="about" rows="3" required value="{{campaign.about}}"></textarea>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="start_date" class="form-label">Start Date : 
+            <input type="date" class="form-control" id="start_date" name="start_date" value="{{campaign.start_date}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="end_date" class="form-label">End Date : 
+            <input type="date" class="form-control" id="end_date" name="end_date" required value="{{campaign.end_date}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="budget" class="form-label">Budget : 
+            <input type="number" class="form-control" id="budget" name="budget" required value="{{campaign.budget}}">
+            </label>
+        </div>
+       
+        <div class="mb-3">
+            <label for="visibility" class="form-label">Visibility : 
+            <input class = "form-control" type="text" name="visibility" id="visibility" value="{{campaign.visibility}}" readonly>
+            </select>
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Edit Campaign</button>
+    </form> 
+{% endblock %}
+
+

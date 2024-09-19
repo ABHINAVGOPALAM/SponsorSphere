@@ -4,4 +4,12 @@
 
 {% block content %}
     <h1>Welcome {{ sponsor.organization_name}} </h1>
+    
+    <!-- display active campaigns and adrequests -->
+    <ul>
+    {% for campaign in user.campaigns %}
+        <li>{{ campaign.name }} ({{ campaign.start_date }} - {{ campaign.end_date }})</li>
+    {% endfor %}
+    </ul>
+    
 {% endblock %}

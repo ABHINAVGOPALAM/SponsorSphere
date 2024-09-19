@@ -3,7 +3,10 @@ from app import app
 from models import db, User , Sponsor , Influencer , Campaign , Rating
 from werkzeug.security import generate_password_hash , check_password_hash
 from functools import wraps
+from datetime import date
 
+
+# decorator for checjing if user is logged in
 def loggedin(func):
     @wraps(func)
     def wrap(*args, **kwargs):
@@ -14,7 +17,7 @@ def loggedin(func):
     return wrap
 
 
-
+# Login and Registration Routes
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -154,12 +157,6 @@ def login_post():
 
     return redirect(url_for('login'))
 
-
-@app.route('/admin')
-@loggedin
-def admin():
-    return render_template('admin/home.html',user= User.query.filter_by(role="admin").first())
-
 @app.route('/home')
 @loggedin
 def home():
@@ -171,6 +168,16 @@ def home():
     if user.role == 'influencer':
         return redirect(url_for('influencer') )  
     return ''
+
+# Sponsor Crud
+
+
+@app.route('/admin')
+@loggedin
+def admin():
+    return render_template('admin/home.html',user= User.query.filter_by(role="admin").first())
+
+
 
 @app.route('/sponsor')
 @loggedin
@@ -197,7 +204,71 @@ def profile():
 @loggedin
 def campaigns():
     user = User.query.filter_by(id=session['user_id']).first()
-    return render_template('campaigns.html',user=user)
+    return render_template('sponsor/campaigns/all.html',user=user)
+
+@app.route('/campaigns/add')
+@loggedin
+def add_campaigns():
+    user = User.query.filter_by(id=session['user_id']).first()
+    return render_template('sponsor/campaigns/add.html',user=user)
+@app.route('/campaigns/add' , methods=['POST'])
+@loggedin
+def add_campaign():
+    name = request.form.get('name')
+    about = request.form.get('about')
+    start_date = date.fromisoformat(request.form.get('start_date'))
+    end_date = date.fromisoformat(request.form.get('end_date'))
+    budget = request.form.get('budget')
+    visibility = request.form.get('visibility')
+    if not name or not about or not start_date or not end_date or not budget:
+        flash('All fields are required')
+        return redirect(url_for('campaigns'))
+    
+    user = User.query.filter_by(id=session['user_id']).first()
+    sponsor = Sponsor.query.filter_by(id=session['user_id']).first()
+    niche = sponsor.niche
+    new_campaign = Campaign(
+        name=name,
+        about=about,
+        start_date=start_date,
+        end_date=end_date,
+        budget=budget,
+        user_id=user.id,
+        niche=niche,
+        visibility=visibility
+  )
+    db.session.add(new_campaign)
+    db.session.commit()
+    return redirect(url_for('campaigns'))
+@app.route('/campaigns/edit/<int:campaign_id>')
+@loggedin
+def edit_campaigns(campaign_id):
+    user = User.query.filter_by(id=session['user_id']).first()
+    campaign = Campaign.query.filter_by(id=campaign_id).first()
+    return render_template('sponsor/campaigns/edit.html',user=user,campaign=campaign)
+@app.route('/campaigns/edit/<int:campaign_id>' , methods=['POST'])
+@loggedin
+def edit_campaign(campaign_id):
+    name = request.form.get('name')
+    about = request.form.get('about')
+    start_date = date.fromisoformat(request.form.get('start_date'))
+    end_date = date.fromisoformat(request.form.get('end_date'))
+    budget = request.form.get('budget')
+    if not name  or not start_date or not end_date or not budget:
+        flash('All fields are required')
+        return redirect(url_for('campaigns'))
+
+    campaign = Campaign.query.filter_by(id=campaign_id).first()
+
+    campaign.name=name
+    campaign.about=about
+    campaign.start_date=start_date
+    campaign.end_date=end_date
+    campaign.budget=budget
+
+    db.session.commit()
+    return redirect(url_for('campaigns'))
+
 
 @app.route('/stats')
 @loggedin
