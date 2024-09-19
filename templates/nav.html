@@ -1,16 +1,23 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{{url_for('index')}}">SponsorSphere</a>
+      <a class="navbar-brand" href="{{url_for('home')}}">SponsorSphere</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse ms-auto" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           {% if session['user_id'] %}
-          <a class="nav-link" href="{{url_for('home')}}">Home</a>
-          <a class="nav-link" href="{{url_for('campaigns')}}">Campaigns</a>
-          <a class="nav-link" href="{{url_for('profile')}}">Profile</a>
-          <a class="nav-link "  href="{{url_for('logout')}}">Logout</a>
+              {% if session['role'] == 'influencer' or session['role'] == 'sponsor'%}
+                <a class="nav-link" href="{{url_for('profile')}}">Profile</a>
+                {% if session['role'] == 'sponsor' %}
+                  <a class="nav-link" href="{{url_for('campaigns')}}">Campaigns</a>
+                {% endif %}
+              {% else %}
+                <a class="nav-link" href="{{url_for('info')}}">Home</a>
+              {% endif %}
+                <a class="nav-link" href="{{url_for('find')}}">Find</a>
+                <a class ="nav-link" href="{{url_for('stats')}}">stats</a>
+                <a class="nav-link "  href="{{url_for('logout')}}">Logout</a>
           {% else %}
           <a class="nav-link active" aria-current="page" href="{{url_for('login')}}">Login</a>
           <a class="nav-link" href="{{ url_for('register_influencer')}}">Register as Influencer</a>

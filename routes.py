@@ -137,8 +137,12 @@ def login_post():
     if not check_password_hash(user.password_hash, password):
         flash('Invalid password')
         return redirect(url_for('login'))
+
+
     flash('Logged in successfully')
     session['user_id'] = user.id
+    session['role'] = user.role
+
     if user.role == 'admin':
         return redirect(url_for('admin'))
     if user.role == 'sponsor':
@@ -154,23 +158,7 @@ def login_post():
 @app.route('/admin')
 @loggedin
 def admin():
-    return render_template('admin.html',user= User.query.filter_by(role="admin").first())
-
-@app.route('/sponsor')
-@loggedin
-def sponsor():
-    user = User.query.filter_by(id=session['user_id']).first()
-    sponsor = Sponsor.query.filter_by(user_id=session['user_id']).first()
-
-    return render_template('sponsor/home.html',user=user,sponsor=sponsor)
-
-@app.route('/influencer') 
-@loggedin  
-def influencer():
-    user = User.query.filter_by(id=session['user_id']).first()
-    influencer = Influencer.query.filter_by(user_id=session['user_id']).first()
-
-    return render_template('influencer.html',user=user,influencer=influencer)
+    return render_template('admin/home.html',user= User.query.filter_by(role="admin").first())
 
 @app.route('/home')
 @loggedin
@@ -182,7 +170,22 @@ def home():
         return redirect(url_for('sponsor'))
     if user.role == 'influencer':
         return redirect(url_for('influencer') )  
-    return render_template('home.html',user=user)
+    return ''
+
+@app.route('/sponsor')
+@loggedin
+def sponsor():
+    user = User.query.filter_by(id=session['user_id']).first()
+    sponsor = Sponsor.query.filter_by(id=session['user_id']).first()
+    return render_template('sponsor/home.html',user=user,sponsor=sponsor)
+
+@app.route('/influencer')
+@loggedin
+def influencer():
+    user = User.query.filter_by(id=session['user_id']).first()
+    influencer = Influencer.query.filter_by(id=session['user_id']).first()
+    return render_template('influencer/home.html',user=user,influencer=influencer)
+
 
 @app.route('/profile')
 @loggedin
@@ -195,3 +198,39 @@ def profile():
 def campaigns():
     user = User.query.filter_by(id=session['user_id']).first()
     return render_template('campaigns.html',user=user)
+
+@app.route('/stats')
+@loggedin
+def stats():
+    pass
+
+@app.route('/find')
+@loggedin
+def find():
+    pass    
+
+@app.route('/info')
+@loggedin
+
+def info():
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -37,9 +37,6 @@ class Sponsor(User):
         'polymorphic_identity': 'sponsor'
     }
 
-    # relationships
-    campaigns = db.relationship("Campaign", backref="sponsor", cascade= "all, delete-orphan")
-
 class Influencer(User):
     __tablename__ = "influencer"
     influencer_id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +66,7 @@ class Campaign(db.Model):
     flag = db.Column(db.Boolean, default=False)
     
     ad_requests = db.relationship("AdRequest", backref="campaign", cascade="all, delete-orphan")
-
+    
 
 class AdRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
